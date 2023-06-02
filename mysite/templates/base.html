@@ -1,0 +1,101 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="NpFVJAawDIiB0t54lcrO6JYF02GYJ_8W9uMqv-96kLs" />
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/open-iconic-bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
+    <title>{% block title %}Книги читать онлайн{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+</head>
+<body>
+{% include 'inc/_nav.html' %}
+
+
+
+<div class="container mt-3">
+    <div class="row flex-column-reverse flex-md-row">
+	    {% if readp != 'read' %}        
+	    <div class="col-md-3">
+            {% block sidebar %}{% endblock %}
+        </div>
+        <div class="col-md-9">
+	        {% else %}
+	        <div class="col-md-12">
+		    {% endif %}
+
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% else %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            {% endfor %}
+            {% endif %}
+
+            {% block content %}{% endblock %}
+            {% if page_obj.has_other_pages %}
+            <nav aria-label="">
+                <ul class="pagination">
+                    <!--                    <li class="page-item disabled">-->
+                    <!--                        <span class="page-link">Previous</span>-->
+                    <!--                    </li>-->
+                    <!--                    <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+                    <!--                    <li class="page-item active" aria-current="page">-->
+                    <!--                        <span class="page-link">2</span>-->
+                    <!--                    </li>-->
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                             tabindex="-1">Предыдущий</a></li>
+                    {% endif %}
+                    {% for p in page_obj.paginator.page_range %}
+
+                    {% if page_obj.number == p %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                    {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number  }}">Следующий</a>
+                    </li>
+                    {% endif %}
+                    <!--                    <li class="page-item">-->
+                    <!--                        <a class="page-link" href="#">Next</a>-->
+                    <!--                    </li>-->
+                </ul>
+            </nav>
+                <p>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</p>
+            {% endif %}
+            {% if not request.GET and request.path == "/" or request.GET.page == '1' %}
+            {% include 'news/index_text.html' %}
+    {% endif %}
+        </div>
+
+
+    </div>
+
+</div>
+
+<footer class="container">
+	<hr/>
+  <p>&copy; 2022 <a href="https://{{ request.get_host }}">Электронная онлайн библиотека</a></p>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

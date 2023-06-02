@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ news_item.title }} читать онлайн книгу полностью бесплатно без регистрации в библиотеке Bookread.com.ua{% endblock %}
+{% block description %}Книга {{ news_item.title }} читать онлайн бесплатно в полной версии без регистрации. Книга {{ news_item.author }} – {{ news_item.title }} в онлайн библиотеке Bookread.com.ua{% endblock %}
+{% block sidebar %}{% include 'inc/_sidebar.html' %}{% endblock %}
+
+
+{% block content %}
+
+<div class="card mb-3">
+    <div class="card-body">
+	    <h1 class="card-title booktitle">{{ news_item.title }} читать онлайн</h1>
+        <div class="media">
+            {% if news_item.photo %}
+            <img src="{{ news_item.photo.url }}" alt="" width="150" class="mr-2">
+            {% endif %}
+            <div class="media-body">
+                Автор: <a href="{{ news_item.author.get_absolute_url }}">{{ news_item.author }}</a><br/>
+                Жанр: <a href="{{ news_item.category.get_absolute_url }}">{{ news_item.category }}</a><br/>
+                {% if news_item.series %}Серия: <a href="{{ news_item.series.get_absolute_url }}">{{ news_item.series }}</a>{% if news_item.series_num %} ({{ news_item.series_num }}){% endif %}<br/>{% endif %}
+                {% if news_item.year %}Год издания:  {{ news_item.year }}<br/>{% endif %}
+                {% comment %}ISBN: {{ news_item.isbn }}<br/>{% endcomment %}
+                Просмотров: {{ news_item.views }}<br/>
+
+                <a href="{% url 'read' news_item.id 1 %}" class="btn btn-primary mt-3"><span class="oi oi-book"></span>  Читать</a>
+
+            </div>
+        </div>
+                <p class="card-text">{{ news_item.content|safe|linebreaks }}</p>
+{#        <table>#}
+{#            <tr>#}
+{#                <td>#}
+{#                    <a {% if user.is_authenticated %} href="#" {% else %} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"{% endif %} class="btn btn-default favbutton mr-3" ><span class="oi oi-heart"></span> В избранное</a>#}
+{##}
+{#                </td>#}
+{#                <td>#}
+{#                    <a {% if user.is_authenticated %} href="#" {% else %} href="#" {% endif %} class="btn btn-default favbutton"><span class="oi oi-thumb-up"></span></a>#}
+{#                    <a {% if user.is_authenticated %} href="#" {% else %} href="#" {% endif %} class="btn btn-default favbutton mr-3"><span class="oi oi-thumb-down"></span></a>#}
+{#                </td>#}
+{#                <td>#}
+{#                    <div class="myclear"></div>#}
+{#                    {% include 'news/share.html' %}#}
+{#                </td>#}
+{#            </tr>#}
+{#        </table>#}
+        <a {% if user.is_authenticated %} href="#" {% else %} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"{% endif %} class="btn btn-default favbutton mr-3" ><span class="oi oi-heart"></span> В избранное</a>
+        <a {% if user.is_authenticated %} href="#" {% else %} href="#" {% endif %} class="btn btn-default favbutton"><span class="oi oi-thumb-up"></span> </a>
+        <a {% if user.is_authenticated %} href="#" {% else %} href="#" {% endif %} class="btn btn-default favbutton mr-3"><span class="oi oi-thumb-down"></span></a>
+        <div style="display:inline-flex;">{% include 'news/share.html' %}</div>
+
+{#    <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="col-sm-3 col-7">#}
+{#            <a {% if user.is_authenticated %} href="#" {% else %} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"{% endif %} class="btn btn-default favbutton mr-3" ><span class="oi oi-heart"></span> В избранное</a>#}
+{#            </div>#}
+{#            <div class="col-sm-3 col-5">#}
+{#            <a {% if user.is_authenticated %} href="#" {% else %} href="#" {% endif %} class="btn btn-default favbutton"><span class="oi oi-thumb-up"></span></a>#}
+{#            <a {% if user.is_authenticated %} href="#" {% else %} href="#" {% endif %} class="btn btn-default favbutton mr-3"><span class="oi oi-thumb-down"></span></a>#}
+{#            </div>#}
+{#            <div class="col-sm-4 col-12">#}
+{#            {% include 'news/share.html' %}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+        {% if news_item.series %}
+            <div style="margin-top:35px;">
+                <h6>Серия: <a href="{{ news_item.series.get_absolute_url }}">{{ news_item.series }}</a></h6>
+                <ul style="list-style-type: none;">
+                    {% for number, lst in sers.items %}
+                    <li>
+                        {{ number }}
+                        {% if news_item.get_absolute_url == "/"|add:lst.1|add:"/" %}{{ lst.0 }}{% else %}
+                        <a href="/{{ lst.1 }}">{{ lst.0 }}</a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

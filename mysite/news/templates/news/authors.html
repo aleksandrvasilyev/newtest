@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Авторы :: {{ block.super}}{% endblock %}
+{% block sidebar %}{% include 'inc/_sidebar.html' %}{% endblock %}
+
+
+{% block content %}
+
+{% load news_tags %}
+
+<h1>Авторы</h1>
+Всего: {{ cnt.count }}
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Автор</th>
+      <th scope="col">Книг</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% get_list_authors as author %}
+  {% for item in author %}
+    <tr>
+      <td><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></td>
+      <td>{{ item.cnt }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

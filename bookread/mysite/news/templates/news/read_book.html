@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Читать :: {{ block.super}}{% endblock %}
+{% block sidebar %}{% include 'inc/_sidebar.html' %}{% endblock %}
+
+{% block content %}
+
+{% if error %}
+	<p>Ошибка чтения</p>
+	<a href="{{ news_item.get_absolute_url }}">К книге</a>
+{% else %}
+
+
+<div class="card mb-3">
+    <div class="card-header">
+        <a href="{{ news_item.get_absolute_url }}">{{ news_item.title }}</a> | Страница {{ page }} из {{ pages }} | <a class="btn btn-outline-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><span class="oi oi-menu"></span> Оглавление</a>
+    </div>
+    
+
+    <div class="card-body">
+	    <div class="collapse" id="collapseExample">
+  <div class="card card-body">
+	  <h3>Оглавление</h3>
+    {% autoescape off %}{{ nav }}{% endautoescape %}
+  </div>
+</div>
+
+
+
+	    {% autoescape off %}
+	    	{% for el in values %}
+				<p>{{ el }}
+			{% endfor %}
+	    {% endautoescape %}
+        
+        
+<!--
+{% comment %}
+        {% for element in values.iter %}
+			{% if element.tag|default:""|slice:"-1:" == "p" %}
+				<p>{{ forloop.counter }}</p>
+				<p>{{ element.text }}</p>
+			{% endif %}
+		{% endfor %}
+{% endcomment %}
+-->
+
+    </div>  
+</div>
+
+<nav aria-label="">
+	<ul class="pagination">
+	{% if page > 1 %}<li class="page-item"><a class="page-link" href="{% url 'read' news_item.pk 1 %}"><span class="oi oi-chevron-left"></span><span class="oi oi-chevron-left"></span></a></li><li class="page-item"><a class="page-link" href="{% url 'read' news_item.pk page|add:'-1' %}" tabindex="-1"><span class="oi oi-chevron-left"></span></a></li>{% endif %}
+	{% for p in listpages %}{% if page == p %}<li class="page-item active"><a class="page-link" href="{% url 'read' news_item.pk page %}">{{ p }}</a></li>
+	{% elif p > page|add:-3 and p < page|add:3 %}<li class="page-item"><a class="page-link" href="{% url 'read' news_item.pk p %}">{{ p }}</a></li>
+	{% endif %}{% endfor %}{% if page < pages %}<li class="page-item"><a class="page-link" href="{% url 'read' news_item.pk page|add:'1' %}"><span class="oi oi-chevron-right"></span></a></li><li class="page-item"><a class="page-link" href="{% url 'read' news_item.pk pages %}"><span class="oi oi-chevron-right"></span><span class="oi oi-chevron-right"></span></a></li>{% endif %}
+	</ul>
+</nav>    
+{% endif %}    
+{% endblock %}

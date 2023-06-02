@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Серии :: {{ block.super}}{% endblock %}
+{% block sidebar %}{% include 'inc/_sidebar.html' %}{% endblock %}
+
+
+{% block content %}
+
+{% load news_tags %}
+
+<h1>Серии</h1>
+Всего: {{ cnt.count }}
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Серия</th>
+      <th scope="col">Книг</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% get_list_series as series %}
+  {% for item in series %}
+    <tr>
+      <td><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></td>
+      <td>{{ item.cnt }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

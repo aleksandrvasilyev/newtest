@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for book in books %}
+   <url>
+      <loc>https://{{ request.get_host }}{{ book.get_absolute_url }}</loc>
+       <lastmod>{{ book.updated_at|date:"Y-m-d" }}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+{% endfor %}
+</urlset>

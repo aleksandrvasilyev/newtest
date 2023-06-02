@@ -1,0 +1,12 @@
+<ul class="social-icons">
+    <li><a class="social-icon-telegram"
+           href="https://t.me/share/url?url=https://{{ request.get_host }}{{ request.path }}&text=Читать книгу {{ news_item.title }} онлайн"
+           title="{{ news_item.title }}"
+           target="_blank" rel="noopener"></a></li>
+    <li><a class="social-icon-fb"
+           href='https://www.facebook.com/sharer.php?u=https://{{ request.get_host }}{{ request.path }}'
+           title="{{ news_item.title }}" target="_blank" rel="noopener"></a></li>
+    <li><a class="social-icon-twitter"
+           href='https://twitter.com/intent/tweet?text=Книга {{ news_item.title }} читать онлайн. https://{{ request.get_host }}{{ request.path }}'
+           title="{{ news_item.title }}" target="_blank" rel="noopener"></a></li>
+</ul>

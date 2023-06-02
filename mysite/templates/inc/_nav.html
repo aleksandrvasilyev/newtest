@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container">
+    <a class="navbar-brand" href="{% url 'home' %}">Litgroup</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+<!--             <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Главная <span class="sr-only">(current)</span></a></li> -->
+            <li class="nav-item"><a class="nav-link" href="{% url 'genres' %}">Жанры</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'authors' %}">Авторы</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'series' %}">Серии</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Поиск</a></li>
+            {% if user.is_authenticated %}
+            {% endif %}
+
+
+        </ul>
+        <span class="navbar-text">
+            {% if user.is_authenticated %}
+                Привет, <a href="{% url 'profile' %}">{{ user.username }}</a> | <a href="{% url 'logout' %}">Выход</a>
+            {% else %}
+                <a href="{% url 'register' %}"> Регистрация</a> | <a href="{% url 'login' %}">Вход</a>
+            {% endif %}
+
+        </span>
+    </div>
+	</div>
+</nav>

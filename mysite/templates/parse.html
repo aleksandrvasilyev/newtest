@@ -1,0 +1,22 @@
+<html>
+<head>
+<title> Парсинг </title>
+</head>
+<body>
+
+<h2>Xml файл</h2>
+<!-- <table border="1"> -->
+{% for element in values.iter %}
+{% if element.tag|default:""|slice:"-1:" == "p" %}
+<!--
+<tr>
+	<td>{{ element.tag }}</td>
+	<td>{{ element.attrib }}</td>
+	<td>{{ element.text }}</td>
+</tr>
+-->
+<p>{{ element.text }}</p>
+{% endif %}
+{% endfor %}
+<!-- </table> -->
+</body>

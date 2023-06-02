@@ -1,0 +1,6 @@
+<div class="list-group mb-4">
+	  <div class="card-header">Жанры</div>
+    {% for item in categories %}
+    <a href="{{ item.get_absolute_url }}" class="list-group-item list-group-item-action" aria-current="true">{{ item.title|slice:":22" }} <span class="badge badge-primary badge-pill">{{ item.cnt }}</span></a>
+    {% endfor %}
+</div>

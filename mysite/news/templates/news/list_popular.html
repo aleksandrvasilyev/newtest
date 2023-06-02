@@ -1,0 +1,6 @@
+<div class="list-group mb-4">
+	  <div class="card-header">Популярные</div>
+    {% for post in posts %}
+    <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action" aria-current="true">{{ post.title }} <span class="badge badge-primary badge-pill">{{ post.views }}</span></a>
+    {% endfor %}
+</div>
